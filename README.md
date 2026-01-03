@@ -18,10 +18,10 @@ sub-commands:
     load <profile_name>
         - load a profile
 
-    save_from <profile_name>
+    save_from <profile_name> <path>
         - save a profile from a specific directory
 
-    load_to <profile_name>
+    load_to <profile_name> <path>
         - load a profile to a specific directory
 
     save_backup <profile_name> <backup_name> 

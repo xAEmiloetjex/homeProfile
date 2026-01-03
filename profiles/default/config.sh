@@ -9,16 +9,7 @@ export P_PATH="$HPPROFILES/$P_NAME"
 echo "$HPPREF Loaded profile: $P_NAME"
 echo "$HPPREF Target home dir: $HPHOME"
 
-export P_MAP=(
-  # (RelativeTargetPath 
-  #   AbsoluteSourcePath)
-  ".config:$HPHOME/.config"
-  # ".local:$HPHOME/.local"
-  ".zshrc:$HPHOME/.zshrc"
-  ".zsh_history:$HPHOME/.zsh_history"
-  ".bashrc:$HPHOME/.bashrc"
-  ".bash_history:$HPHOME/.bash_history"
-  ".bash_profile:$HPHOME/.bash_profile"
-  ".p10k.zsh:$HPHOME/.p10k.zsh"
-  ".profile:$HPHOME/.profile"
-)
+# "StoragePath:SourcePath"
+export P_MAP=()
+
+export P_DIFF_DIRS=()

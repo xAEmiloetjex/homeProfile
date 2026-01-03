@@ -22,7 +22,7 @@ function run_save {
   do
     TPATH="$FSTORE/${_path%%:*}"
     SPATH="${_path#*:}"
-    # echo "$TPATH = $SPATH"
+
     cp -rv $SPATH $TPATH
   done
 }
@@ -34,13 +34,11 @@ function run_load {
 
   FSTORE=$PPATH/storage/files/_
 
-  # mkdir -p $FSTORE
-
   for _path in "${P_MAP[@]}"
   do
     TPATH="$FSTORE/${_path%%:*}"
     SPATH="${_path#*:}"
-    # echo "$TPATH = $SPATH"
+
     rm -rfv $SPATH
     cp -rv $TPATH $SPATH
   done
@@ -55,7 +53,6 @@ function run_save_backup {
   BUPATH="$FSTORE/$BUID"
 
   mkdir -p $BUPATH
-
   cp -rv $FSTORE/_/* $BUPATH
 }
 
@@ -78,7 +75,6 @@ function run_diff_backups {
 
   source "$PPATH/config.sh"
 
-
   FSTORE=$PPATH/storage/files/
   DSTORE=$PPATH/storage/diffs/$BUID
 
@@ -90,16 +86,6 @@ function run_diff_backups {
   BUID2="backup_$HPBACK2"
   BU2PATH="$FSTORE/$BUID2"
 
-  # echo "PPATH = $PPATH"
-  # echo "FSTORE = $FSTORE"
-  # echo "DSTORE = $DSTORE"
-  # echo "DIFFID = $DIFFID"
-  # echo "DIFFPATH = $DIFFPATH"
-  # echo "BUID1 = $BUID1"
-  # echo "BU1PATH = $BU1PATH"
-  # echo "BUID2 = $BUID2"
-  # echo "BU2PATH = $BU2PATH"
-
   for _dir in "${P_DIFF_DIRS[@]}"
   do
     mkdir -p $DIFFPATH/$_dir
@@ -110,13 +96,8 @@ function run_diff_backups {
     T1PATH="$BU1PATH/${_path%%:*}"
     T2PATH="$BU2PATH/${_path%%:*}"
     DPATH="$DIFFPATH/${_path%%:*}"
-    # SPATH="${_path#*:}"
-    # echo "$TPATH = $SPATH"
-    # cp -rv $SPATH $TPATH
-    # echo "$T2PATH"
     diff -c "$T1PATH" "$T2PATH" >> "$DPATH.diff"
   done
-
 }
 
 function run_diff_backup {
@@ -148,11 +129,9 @@ function run_diff_backup {
     T1PATH="$BU1PATH/${_path%%:*}"
     T2PATH="$BU2PATH/${_path%%:*}"
     DPATH="$DIFFPATH/${_path%%:*}"
-    # SPATH="${_path#*:}"
-    # echo "$TPATH = $SPATH"
-    # cp -rv $SPATH $TPATH
-    # echo "$T2PATH"
-    diff -c "$T1PATH" "$T2PATH" >> "$DPATH.diff"
+
+    diff -c "$T1PATH" "$T2PATH" >> "$DPATH.diff-on"
+    diff -c "$T2PATH" "$T1PATH" >> "$DPATH.diff-off"
   done
 
 }

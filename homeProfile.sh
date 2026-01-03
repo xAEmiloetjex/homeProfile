@@ -53,7 +53,7 @@ function run_save_backup {
   BUPATH="$FSTORE/$BUID"
 
   mkdir -p $BUPATH
-  cp -rv $FSTORE/_/* $BUPATH
+  cp -rv $FSTORE/_ $BUPATH
 }
 
 function run_load_backup {

@@ -68,7 +68,7 @@ function run_load_backup {
   BUPATH="$FSTORE/$BUID"
 
   rm -rfv $FSTORE/_
-  cp -rv $BUPATH $FSTORE/_
+  cp -rv $BUPATH/_ $FSTORE/_
 }
 
 function run_diff_backups {
@@ -222,5 +222,8 @@ case $1 in
     HPPROF=$2
     HPHOME=$3
     run_load
+    ;;
+  *)
+    cat "$HPROOT/README.md"
     ;;
 esac

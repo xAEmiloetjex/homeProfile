@@ -96,17 +96,17 @@ function run_diff_backups {
     T1PATH="$BU1PATH/${_path%%:*}"
     T2PATH="$BU2PATH/${_path%%:*}"
     DPATH="$DIFFPATH/${_path%%:*}"
-    diff -c "$T1PATH" "$T2PATH" >> "$DPATH.diff"
+    diff -c "$T1PATH" "$T2PATH" >> "$DPATH.diff-on"
+    diff -c "$T2PATH" "$T1PATH" >> "$DPATH.diff-off"
   done
 }
 
 function run_diff_backup {
-  echo "$HPPREF started procedure: run_diff_backups"
+  echo "$HPPREF started procedure: run_diff_backup"
 
   PPATH="$HPPROFILES/$HPPROF"
 
   source "$PPATH/config.sh"
-
 
   FSTORE=$PPATH/storage/files/
   DSTORE=$PPATH/storage/diffs/$BUID
@@ -149,6 +149,20 @@ function run_edit {
   $EDITOR "$PPATH/config.sh"
 }
 
+function run_apply_diff {
+  echo "TODO: run_apply_diff isn't implemented yet"
+  PPATH="$HPPROFILES/$HPPROF"
+
+  source "$PPATH/config.sh"
+
+  FSTORE=$PPATH/storage/files/
+  DSTORE=$PPATH/storage/diffs/$BUID
+}
+
+function run_unapply_diff {
+  echo "TODO: run_unapply_diff isn't implemented yet"
+}
+
 case $1 in
   "help")
     cat "$HPROOT/README.md"
@@ -175,7 +189,7 @@ case $1 in
     HPPROF=$2
     HPBACK1=$3
     HPDIFF=$4
-    run_diff_backups
+    run_diff_backup
     ;;
   "diff_backups")
     HPPROF=$2
@@ -184,6 +198,16 @@ case $1 in
     HPDIFF=$5
     run_diff_backups
     ;;
+  "apply_diff")
+    HPPROF=$2
+    HPDIFF=$3
+    run_apply_diff
+    ;;
+  "unapply_diff")
+    HPPROF=$2
+    HPDIFF=$3
+    run_unapply_diff
+    ;;    
   "save")
     HPPROF=$2
     run_save

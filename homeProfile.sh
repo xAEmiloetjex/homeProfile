@@ -8,6 +8,18 @@ export HPBACK1=0
 export HPBACK2=0
 export HPDIFF=0
 
+RMFLAGS=-rf
+CPFLAGS=-r
+
+if [ -z "$VERBOSE" ]
+then
+  RMFLAGS=-rf
+  CPFLAGS=-r
+else
+  RMFLAGS=-rfv
+  CPFLAGS=-rv
+fi
+
 function run_save {
   echo "$HPPREF started procedure: run_save"
   PPATH="$HPPROFILES/$HPPROF"
@@ -23,8 +35,32 @@ function run_save {
     TPATH="$FSTORE/${_path%%:*}"
     SPATH="${_path#*:}"
 
-    cp -rv $SPATH $TPATH
+    cp $CPFLAGS $SPATH $TPATH
   done
+}
+
+function run_clear {
+  echo "$HPPREF started procedure: run_clear"
+  PPATH="$HPPROFILES/$HPPROF"
+  source "$PPATH/config.sh"
+
+  FSTORE=$PPATH/storage/files/_
+  DSTORE=$PPATH/storage/diffs/_
+
+  rm $RMFLAGS $FSTORE
+}
+
+function run_clear_backup {
+  echo "$HPPREF started procedure: run_save_backup"
+  PPATH="$HPPROFILES/$HPPROF"
+  FSTORE=$PPATH/storage/files
+  source "$PPATH/config.sh"
+  BUID="backup_$HPBACK"
+  BUPATH="$FSTORE/$BUID"
+
+  rm $RMFLAGS $BUPATH
+  # mkdir -p $BUPATH
+  # cp $CPFLAGS $FSTORE/_ $BUPATH
 }
 
 function run_load {
@@ -39,8 +75,8 @@ function run_load {
     TPATH="$FSTORE/${_path%%:*}"
     SPATH="${_path#*:}"
 
-    rm -rfv $SPATH
-    cp -rv $TPATH $SPATH
+    rm $RMFLAGS $SPATH
+    cp $CPFLAGS $TPATH $SPATH
   done
 }
 
@@ -53,7 +89,7 @@ function run_save_backup {
   BUPATH="$FSTORE/$BUID"
 
   mkdir -p $BUPATH
-  cp -rv $FSTORE/_ $BUPATH
+  cp $CPFLAGS $FSTORE/_ $BUPATH
 }
 
 function run_load_backup {
@@ -64,8 +100,8 @@ function run_load_backup {
   BUID="backup_$HPBACK"
   BUPATH="$FSTORE/$BUID"
 
-  rm -rfv $FSTORE/_
-  cp -rv $BUPATH/_ $FSTORE/_
+  rm $RMFLAGS $FSTORE/_
+  cp $CPFLAGS $BUPATH/_ $FSTORE/_
 }
 
 function run_diff_backups {
@@ -180,6 +216,11 @@ case $1 in
     HPBACK=$3
     run_save_backup
     ;;
+  "clear_backup")
+    HPPROF=$2
+    HPBACK=$3
+    run_clear_backup
+    ;;
   "load_backup")
     HPPROF=$2
     HPBACK=$3
@@ -211,6 +252,10 @@ case $1 in
   "save")
     HPPROF=$2
     run_save
+    ;;
+  "clear")
+    HPPROF=$2
+    run_clear
     ;;
   "load")
     HPPROF=$2

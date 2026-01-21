@@ -14,6 +14,10 @@ sub-commands:
         
     save <profile_name>
         - save a profile
+    
+    clear <profile_name>
+        - deletes the currently saved profile
+        - (Added because of a bug: https://github.com/xAEmiloetjex/homeProfile/issues/1#issue-3837962863)
 
     load <profile_name>
         - load a profile
@@ -26,6 +30,9 @@ sub-commands:
 
     save_backup <profile_name> <backup_name> 
         - make a backup of a profile
+
+    clear_backup <profile_name> <backup_name> 
+        - deletes the backup
 
     load_backup <profile_name> <backup_name> 
         - load a backup of a profile
